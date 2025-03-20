@@ -1,6 +1,6 @@
-# GameLibX
+# GamelibX
 
-`GameLibX` is a Java-based game library that provides essential functionalities for creating 2D games, including drawing, collision detection, and input handling.
+`GamelibX` is a Java-based game library that provides essential functionalities for creating 2D games, including drawing, collision detection, and input handling.
 
 ## Features
 
