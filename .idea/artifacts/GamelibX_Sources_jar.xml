@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
     <root id="archive" name="GamelibX-Sources.jar">
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.0/annotations-24.0.0.jar" path-in-jar="/" />
-      <element id="module-source" name="OneButtonBob" />
+      <element id="module-source" name="GameLibX" />
     </root>
   </artifact>
 </component>
