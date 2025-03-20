@@ -1,6 +1,7 @@
 package gamelibx.swing;
 
 import gamelibx.Game;
+import gamelibx.ticker.TickManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +20,21 @@ public class GameXWindow extends JFrame {
         );
 
         setVisible(true);
+
+        GameXPanel panel = new GameXPanel();
+        this.add(panel);
+
+        addKeyListener(Game.getInstance());
+        addMouseListener(Game.getInstance());
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        Game.getInstance().paint(g);
+    private static class GameXPanel extends JPanel {
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (TickManager.isRunning())
+                Game.getInstance().onTick();
+            Game.getInstance().paint((Graphics2D) g);
+        }
     }
 }
