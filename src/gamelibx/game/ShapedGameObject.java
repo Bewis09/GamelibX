@@ -1,22 +1,20 @@
 package gamelibx.game;
 
+import gamelibx.drawing.DrawStyle;
 import gamelibx.interfaces.Collidable;
-import gamelibx.util.ColorHelpers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class ShapedGameObject extends GameObject implements Collidable {
-    public static DrawStyle DEFAULT_DRAW_STYLE = new FillColorStyle("black");
+    public static DrawStyle DEFAULT_DRAW_STYLE = new DrawStyle.FillColorStyle("black");
 
     public final Shape relativeShape;
     @NotNull
-    public DrawStyle drawStyle;
+    private DrawStyle drawStyle;
 
     /**
      * A game object that is represented by a {@link java.awt.Shape}.
@@ -60,7 +58,7 @@ public class ShapedGameObject extends GameObject implements Collidable {
     @Override
     public void draw(Graphics2D graphics2D) {
         graphics2D.translate(getCenterX(), getCenterY());
-        drawStyle.draw(graphics2D, this);
+        getDrawStyle().draw(graphics2D, this.relativeShape);
         graphics2D.translate(-getCenterX(), -getCenterY());
     }
 
@@ -70,11 +68,11 @@ public class ShapedGameObject extends GameObject implements Collidable {
     }
 
     public void setColor(String color) {
-        setDrawStyle(new FillColorStyle(color));
+        setDrawStyle(new DrawStyle.FillColorStyle(color));
     }
 
     public void setImage(String path) {
-        setDrawStyle(new ImagedStyle(path));
+        setDrawStyle(new DrawStyle.ImagedStyle(path));
     }
 
     public void setDrawStyle(DrawStyle drawStyle) {
@@ -83,37 +81,5 @@ public class ShapedGameObject extends GameObject implements Collidable {
 
     public @NotNull DrawStyle getDrawStyle() {
         return drawStyle;
-    }
-
-    public interface DrawStyle {
-        void draw(Graphics2D graphics2D, ShapedGameObject shapedGameObject);
-    }
-
-    public static class FillColorStyle implements DrawStyle {
-        public final Color color;
-
-        public FillColorStyle(String color) {
-            this.color = ColorHelpers.getColor(color);
-        }
-
-        @Override
-        public void draw(Graphics2D graphics2D, ShapedGameObject shapedGameObject) {
-            graphics2D.setColor(color);
-            graphics2D.fill(shapedGameObject.relativeShape);
-        }
-    }
-
-    public record ImagedStyle(Image image) implements DrawStyle {
-        public ImagedStyle(String path) {
-            this(new ImageIcon(path).getImage());
-        }
-
-        @Override
-        public void draw(Graphics2D graphics2D, ShapedGameObject shapedGameObject) {
-            graphics2D.drawImage(image, (int) ( - shapedGameObject.relativeShape.getBounds().getWidth() / 2f),
-                    (int) ( - shapedGameObject.relativeShape.getBounds().getHeight() / 2f),
-                    (int) ( shapedGameObject.relativeShape.getBounds().getWidth()),
-                    (int) ( shapedGameObject.relativeShape.getBounds().getHeight()), null);
-        }
     }
 }

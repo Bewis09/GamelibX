@@ -1,5 +1,6 @@
 package gamelibx;
 
+import gamelibx.drawing.DrawStyle;
 import gamelibx.game.ShapedGameObject;
 import gamelibx.interfaces.Collidable;
 import gamelibx.interfaces.Rectangular;
@@ -15,7 +16,7 @@ public class Rectangle extends ShapedGameObject implements Rectangular {
     private float resistanceFactor = 0.99f;
 
     public Rectangle(float x, float y, float width, float height, @Nullable DrawStyle drawStyle) {
-        super(x + width / 2f, y + height / 2f, new Rectangle2D.Float(-width / 2f, -height / 2f, width, height));
+        super(x + width / 2f, y + height / 2f, new Rectangle2D.Float(-width / 2f, -height / 2f, width, height), drawStyle);
     }
 
     public Rectangle(float x, float y, float width, float height) {

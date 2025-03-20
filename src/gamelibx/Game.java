@@ -1,23 +1,31 @@
 package gamelibx;
 
+import gamelibx.drawing.DrawStyle;
 import gamelibx.interfaces.Collidable;
 import gamelibx.interfaces.Drawable;
 import gamelibx.interfaces.Tickable;
 import gamelibx.swing.GameXWindow;
 import gamelibx.ticker.TickManager;
 import gamelibx.util.KotlinLikeHelpers;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-public class Game implements Tickable, KeyListener, MouseListener {
+public class Game implements Tickable, Drawable, KeyListener, MouseListener {
     private static Game instance;
+
+    @Nullable
+    private DrawStyle backgroundDrawStyle;
+    public static DrawStyle DEFAULT_DRAW_STYLE = new DrawStyle.FillColorStyle("0xcccccc");
 
     private final GameXWindow window;
     private final ArrayList<Tickable> tickables = new ArrayList<>();
@@ -73,6 +81,8 @@ public class Game implements Tickable, KeyListener, MouseListener {
     }
 
     public final void paint(Graphics2D g) {
+        draw(g);
+
         for (Drawable drawable : drawables.toArray(new Drawable[0])) {
             drawable.draw(g);
         }
@@ -207,5 +217,28 @@ public class Game implements Tickable, KeyListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void draw(Graphics2D graphics2D) {
+        if (getBackgroundDrawStyle() != null) {
+            getBackgroundDrawStyle().draw(graphics2D, new Rectangle2D.Float(0, 0, getWidth(), getHeight()));
+        }
+    }
+
+    public void setBackgroundColor(String color) {
+        setBackgroundDrawStyle(new DrawStyle.FillColorStyle(color));
+    }
+
+    public void setBackgroundImage(String path) {
+        setBackgroundDrawStyle(new DrawStyle.ImagedStyle(path));
+    }
+
+    public void setBackgroundDrawStyle(@Nullable DrawStyle drawStyle) {
+        this.backgroundDrawStyle = drawStyle;
+    }
+
+    public @Nullable DrawStyle getBackgroundDrawStyle() {
+        return backgroundDrawStyle;
     }
 }

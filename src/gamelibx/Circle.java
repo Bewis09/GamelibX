@@ -1,5 +1,6 @@
 package gamelibx;
 
+import gamelibx.drawing.DrawStyle;
 import gamelibx.game.ShapedGameObject;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="GamelibX:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/GamelibX_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="GamelibX:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
     <root id="archive" name="GamelibX.jar">
-      <element id="module-output" name="GamelibX" />
+      <element id="module-output" name="OneButtonBob" />
     </root>
   </artifact>
 </component>

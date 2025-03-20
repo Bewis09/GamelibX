@@ -1,10 +1,12 @@
 package gamelibx;
 
+import gamelibx.resource_loader.ResourceLoader;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 
 public class Sound {
@@ -21,7 +23,7 @@ public class Sound {
 
     public Clip play(int volume) {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(ResourceLoader.getResourceAsStream(path)));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

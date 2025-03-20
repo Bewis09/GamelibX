@@ -28,7 +28,7 @@ public class TickManager {
     }
 
     public static boolean isRunning() {
-        return running;
+        return tickRunning;
     }
 
     public static void setTickRate() {

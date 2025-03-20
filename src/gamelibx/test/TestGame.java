@@ -4,6 +4,7 @@ import gamelibx.Game;
 import gamelibx.Rectangle;
 import gamelibx.Sound;
 import gamelibx.Text;
+import gamelibx.game.ShapedGameObject;
 
 import java.awt.event.KeyEvent;
 
@@ -12,10 +13,12 @@ public class TestGame extends Game {
     Rectangle platform1 = new Rectangle(0, 470, 300, 100);
     Rectangle platform2 = new Rectangle(500, 470, 500, 100);
     Text text = new Text(400, 300, "Hello, World!", true, false);
-    Sound death = new Sound("src/gamelibx/test/resources/death.wav");
+    Sound death;
 
     public TestGame() {
         super("Test Game", 800, 600);
+
+        death = new Sound("gamelibx/test/resources/death.wav");
 
         setDefaultGravity(0.2f);
 
@@ -23,9 +26,11 @@ public class TestGame extends Game {
         platform1.makePassive();
         platform2.makePassive();
 
-        platform1.setImage("src/gamelibx/test/resources/grass.png");
-        platform2.setImage("src/gamelibx/test/resources/grass.png");
-        player.setColor("0xFF77AA");
+        platform1.setImage("gamelibx/test/resources/grass.png");
+        platform2.setImage("gamelibx/test/resources/grass.png");
+        player.setImage("gamelibx/test/resources/player.gif");
+
+        setBackgroundImage("gamelibx/test/resources/background.png");
 
         startTicker();
     }
@@ -44,8 +49,6 @@ public class TestGame extends Game {
             player.setVelocity(0, 0);
             death.play();
         }
-
-        System.out.println(death.anyPlaying());
     }
 
     @Override
