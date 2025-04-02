@@ -27,8 +27,8 @@ public class TestGame extends Game {
         platform2.makePassive();
         barrier.makePassive();
 
-        platform1.setImage("gamelibx/test/resources/grass.png");
-        platform2.setImage("gamelibx/test/resources/grass.png");
+        platform1.setRepeatingImage("gamelibx/test/resources/grass.png");
+        platform2.setRepeatingImage("gamelibx/test/resources/grass.png");
         player.setImage("gamelibx/test/resources/player.gif");
 
         setBackgroundImage("gamelibx/test/resources/background.png");

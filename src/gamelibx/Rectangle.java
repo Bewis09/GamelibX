@@ -77,11 +77,9 @@ public class Rectangle extends ShapedGameObject implements Rectangular {
         centerY += 1;
 
         for (Collidable collidable : Game.getInstance().getCollidables()) {
-            if (collidable != this) {
-                if (collidable.containsRect(this.getBounds())) {
-                    centerY -= 1;
-                    return true;
-                }
+            if (collidable != this && collidable.shouldCollide() && collidable.containsRect(this.getBounds()) && !collidable.isHidden()) {
+                centerY -= 1;
+                return true;
             }
         }
 
