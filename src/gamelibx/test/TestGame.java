@@ -6,6 +6,7 @@ import gamelibx.Sound;
 import gamelibx.Text;
 
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 
 public class TestGame extends Game {
     Rectangle player = new Rectangle(50, 400, 50, 50);
@@ -27,8 +28,8 @@ public class TestGame extends Game {
         platform2.makePassive();
         barrier.makePassive();
 
-        platform1.setRepeatingImage("gamelibx/test/resources/grass.png");
-        platform2.setRepeatingImage("gamelibx/test/resources/grass.png");
+        platform1.setRepeatingImage("gamelibx/test/resources/grass.png", new Rectangle2D.Float(50, 50, 100, 100));
+        platform2.setRepeatingImage("gamelibx/test/resources/grass.png", new Rectangle2D.Float(50, 50, 100, 100));
         player.setImage("gamelibx/test/resources/player.gif");
 
         setBackgroundImage("gamelibx/test/resources/background.png");
