@@ -84,7 +84,7 @@ public class Text extends GameObject {
         graphics2D.setFont(getFont());
         graphics2D.setColor(getColor());
         Rectangle2D bounds = graphics2D.getFontMetrics().getStringBounds(getText(), graphics2D);
-        graphics2D.drawString(getText(), (int) (getCenterX() - bounds.getWidth() / 2), (int) (getCenterY() - bounds.getHeight() / 2));
+        graphics2D.drawString(getText(), (int) (getCenterX() - bounds.getWidth() / 2), (int) (getCenterY() + bounds.getHeight() / 2));
     }
 
     @Override

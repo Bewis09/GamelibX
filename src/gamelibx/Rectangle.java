@@ -102,10 +102,14 @@ public class Rectangle extends ShapedGameObject implements Rectangular {
         for (Collidable collidable : Game.getInstance().getCollidables()) {
             if (collidable == this || !collidable.containsRect(this.getBounds())) continue;
 
+            collidable.onCollide(Game.getInstance());
+
+            if (!collidable.shouldCollide()) continue;
+
             float velocitySquared = velocityX * velocityX + velocityY * velocityY;
             float originalHeight = centerY;
 
-            for (float i = 0; i * i < velocitySquared * 8; i += 1f) {
+            for (float i = 0; i * i < velocitySquared * 8 && velocityY != 0; i += 1f) {
                 centerY -= Math.abs(velocityY) / velocityY;
 
                 if (!collidable.containsRect(this.getBounds())) break;
@@ -116,7 +120,7 @@ public class Rectangle extends ShapedGameObject implements Rectangular {
 
                 float originalWidth = centerX;
 
-                for (float i = 0; i * i < velocitySquared * 8; i += 1f) {
+                for (float i = 0; i * i < velocitySquared * 8 && velocityX != 0; i += 1f) {
                     centerX -= Math.abs(velocityX) / velocityX;
 
                     if (!collidable.containsRect(this.getBounds())) break;

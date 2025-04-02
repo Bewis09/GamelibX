@@ -12,20 +12,23 @@ public class GameXWindow extends JFrame {
         setResizable(false);
         setTitle(title);
 
-        setBounds(
-            (int) (getToolkit().getScreenSize().getWidth() / 2 - width / 2f),
-            (int) (getToolkit().getScreenSize().getHeight() / 2 - height / 2f),
-            width,
-            height
-        );
-
-        setVisible(true);
-
         GameXPanel panel = new GameXPanel();
         this.add(panel);
 
+        panel.setPreferredSize(new Dimension(width, height));
+        pack();
+
+        setLocationRelativeTo(null);
+
+        setVisible(true);
+
         addKeyListener(Game.getInstance());
         addMouseListener(Game.getInstance());
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
     }
 
     private static class GameXPanel extends JPanel {

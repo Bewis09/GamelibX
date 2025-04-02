@@ -56,6 +56,11 @@ public class ShapedGameObject extends GameObject implements Collidable {
     }
 
     @Override
+    public boolean shouldCollide() {
+        return getState() == State.PASSIVE;
+    }
+
+    @Override
     public void draw(Graphics2D graphics2D) {
         graphics2D.translate(getCenterX(), getCenterY());
         getDrawStyle().draw(graphics2D, this.relativeShape);

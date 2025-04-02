@@ -1,6 +1,7 @@
 package gamelibx;
 
 import gamelibx.drawing.DrawStyle;
+import gamelibx.game.GameObject;
 import gamelibx.interfaces.Collidable;
 import gamelibx.interfaces.Drawable;
 import gamelibx.interfaces.Tickable;
@@ -18,10 +19,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Game implements Tickable, Drawable, KeyListener, MouseListener {
     private static Game instance;
+    private int frames;
+    private int lastFrames;
+    private long lastSecondTime;
 
     @Nullable
     private DrawStyle backgroundDrawStyle;
@@ -31,6 +34,10 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
     private final ArrayList<Tickable> tickables = new ArrayList<>();
     private final ArrayList<Drawable> drawables = new ArrayList<>();
     private List<Collidable> collidables = Collections.unmodifiableList(new ArrayList<>());
+
+    public float gameX = 0;
+    public float gameY = 0;
+    public float gameScale = 1;
 
     public float defaultGravity = 0.1f;
 
@@ -80,14 +87,32 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
         this.defaultGravity = defaultGravity;
     }
 
+    /**
+     * Make sure you know what you're doing when overriding this method.
+     * The background will be drawn before calling this method.
+     *
+     * @param g The Graphics2D object to paint with.
+     */
+    public void beforePaint(Graphics2D g) {
+        g.scale(gameScale, gameScale);
+        g.translate(-(int) gameX, -(int) gameY);
+    }
+
     public final void paint(Graphics2D g) {
         draw(g);
 
+        beforePaint(g);
+
         for (Drawable drawable : drawables.toArray(new Drawable[0])) {
-            drawable.draw(g);
+            if (drawable.isVisible())
+                drawable.draw(g);
         }
 
-        paintAdditions(g);
+        afterPaint(g);
+    }
+
+    public GameXWindow getWindow() {
+        return window;
     }
 
     public final void onRender() {
@@ -95,6 +120,16 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
     }
 
     public final void onTick() {
+        frames++;
+
+        if (System.currentTimeMillis() - lastSecondTime > 1000) {
+            lastFrames = frames;
+            frames = 0;
+            lastSecondTime = System.currentTimeMillis();
+
+            System.out.println("FPS: " + lastFrames);
+        }
+
         this.tick();
         for (Tickable tickable : tickables) {
             tickable.tick();
@@ -135,13 +170,17 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
      *
      * @param g The Graphics2D object to paint with.
      */
-    public void paintAdditions(Graphics2D g) {
+    public void afterPaint(Graphics2D g) {
 
     }
 
     @Override
     public void tick() {
 
+    }
+
+    public int getLastFrameRate() {
+        return lastFrames;
     }
 
     /**
@@ -174,7 +213,7 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public final void keyReleased(KeyEvent e) {
         keyReleased(e.getKeyChar(), e.getKeyCode());
     }
 
@@ -240,5 +279,42 @@ public class Game implements Tickable, Drawable, KeyListener, MouseListener {
 
     public @Nullable DrawStyle getBackgroundDrawStyle() {
         return backgroundDrawStyle;
+    }
+
+    public void setGameX(float gameX) {
+        this.gameX = gameX;
+    }
+
+    public void setGameY(float gameY) {
+        this.gameY = gameY;
+    }
+
+    public void setGameScale(float gameScale) {
+        this.gameScale = gameScale;
+    }
+
+    /**
+     * You can override this method to change the game's x coordinate without having to call setGameX.
+     */
+    public float getGameX() {
+        return gameX;
+    }
+
+    /**
+     * You can override this method to change the game's y coordinate without having to call setGameY.
+     */
+    public float getGameY() {
+        return gameY;
+    }
+
+    /**
+     * You can override this method to change the game's scale without having to call setGameScale.
+     */
+    public float getGameScale() {
+        return gameScale;
+    }
+
+    public void addDrawable(int i, GameObject gameObject) {
+        drawables.add(i, gameObject);
     }
 }

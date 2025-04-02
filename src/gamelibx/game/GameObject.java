@@ -10,20 +10,42 @@ public abstract class GameObject implements Drawable, Tickable {
     private State state = State.NEUTRAL;
     protected float centerX;
     protected float centerY;
+    private boolean visible = true;
 
     public GameObject(float centerX, float centerY) {
         this.centerX = centerX;
         this.centerY = centerY;
+
         Game.getInstance().addTickable(this);
         Game.getInstance().addDrawable(this);
+
+        if (this instanceof Collidable c)
+            Game.getInstance().addCollidable(c);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
     }
 
     public int getCenterX() {
-        return (int) centerX;
+        return Math.round(centerX);
     }
 
     public int getCenterY() {
-        return (int) centerY;
+        return Math.round(centerY);
+    }
+
+    public float getExactCenterX() {
+        return centerX;
+    }
+
+    public float getExactCenterY() {
+        return centerY;
     }
 
     public void setCenterX(float centerX) {
@@ -68,16 +90,25 @@ public abstract class GameObject implements Drawable, Tickable {
     }
 
     public void makePassive() {
-        if(this instanceof Collidable c) {
-            Game.getInstance().addCollidable(c);
+        if(this instanceof Collidable) {
             state = State.PASSIVE;
         } else
-            throw new IllegalStateException("Cannot make a non-collidable object passive");
+            System.out.println("Warning: Making a non-collidable object passive won't work.");
     }
 
     public void makeNeutral() {
         if(this instanceof Collidable c)
             Game.getInstance().removeCollidable(c);
         state = State.NEUTRAL;
+    }
+
+    public void toForeground() {
+        Game.getInstance().removeDrawable(this);
+        Game.getInstance().addDrawable(this);
+    }
+
+    public void toBackground() {
+        Game.getInstance().removeDrawable(this);
+        Game.getInstance().addDrawable(0, this);
     }
 }
