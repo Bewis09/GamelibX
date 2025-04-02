@@ -84,8 +84,8 @@ public class ShapedGameObject extends GameObject implements Collidable {
         setDrawStyle(new DrawStyle.ImagedStyle(path));
     }
 
-    public void setRepeatingImage(String path) {
-        setDrawStyle(new DrawStyle.RepeatingImagedStyle(path, new Rectangle(50, 50, 100, 100)));
+    public void setRepeatingImage(String path, Rectangle2D rectangle) {
+        setDrawStyle(new DrawStyle.RepeatingImagedStyle(path, rectangle));
     }
 
     public void setDrawStyle(DrawStyle drawStyle) {
