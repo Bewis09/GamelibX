@@ -15,6 +15,7 @@ public class ShapedGameObject extends GameObject implements Collidable {
     public final Shape relativeShape;
     @NotNull
     private DrawStyle drawStyle;
+    private boolean initialized = false;
 
     /**
      * A game object that is represented by a {@link java.awt.Shape}.
@@ -40,6 +41,7 @@ public class ShapedGameObject extends GameObject implements Collidable {
         super(centerX, centerY);
         this.relativeShape = relativeShape;
         this.drawStyle = Objects.requireNonNullElse(drawStyle, DEFAULT_DRAW_STYLE);
+        this.initialized = true;
     }
 
     @Override
@@ -62,9 +64,11 @@ public class ShapedGameObject extends GameObject implements Collidable {
 
     @Override
     public void draw(Graphics2D graphics2D) {
-        graphics2D.translate(getCenterX(), getCenterY());
-        getDrawStyle().draw(graphics2D, this.relativeShape);
-        graphics2D.translate(-getCenterX(), -getCenterY());
+        if (initialized) {
+            graphics2D.translate(getCenterX(), getCenterY());
+            getDrawStyle().draw(graphics2D, this.relativeShape);
+            graphics2D.translate(-getCenterX(), -getCenterY());
+        }
     }
 
     @Override
@@ -86,5 +90,10 @@ public class ShapedGameObject extends GameObject implements Collidable {
 
     public @NotNull DrawStyle getDrawStyle() {
         return drawStyle;
+    }
+
+    @Override
+    public boolean isHidden() {
+        return !isVisible();
     }
 }

@@ -12,4 +12,6 @@ public interface Collidable {
     default void onCollide(Game game) {}
 
     boolean shouldCollide();
+
+    boolean isHidden();
 }

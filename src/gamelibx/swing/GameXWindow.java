@@ -34,10 +34,11 @@ public class GameXWindow extends JFrame {
     private static class GameXPanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (TickManager.isRunning())
+            if (TickManager.isRunning()) {
+                super.paintComponent(g);
                 Game.getInstance().onTick();
-            Game.getInstance().paint((Graphics2D) g);
+                Game.getInstance().paint((Graphics2D) g);
+            }
         }
     }
 }

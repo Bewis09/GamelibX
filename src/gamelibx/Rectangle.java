@@ -100,7 +100,7 @@ public class Rectangle extends ShapedGameObject implements Rectangular {
         centerX += velocityX;
 
         for (Collidable collidable : Game.getInstance().getCollidables()) {
-            if (collidable == this || !collidable.containsRect(this.getBounds())) continue;
+            if (collidable == this || collidable.isHidden() || !collidable.containsRect(this.getBounds())) continue;
 
             collidable.onCollide(Game.getInstance());
 
