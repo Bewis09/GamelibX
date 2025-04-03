@@ -15,7 +15,7 @@ public class ShapedGameObject extends GameObject implements Collidable {
     public final Shape relativeShape;
     @NotNull
     private DrawStyle drawStyle;
-    private boolean initialized = false;
+    public final boolean initialized;
 
     /**
      * A game object that is represented by a {@link java.awt.Shape}.
